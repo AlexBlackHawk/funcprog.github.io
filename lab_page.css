@@ -1,0 +1,65 @@
+/* Оновлені стилі для сторінки звіту */
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.navigation {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.navigation .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 5px;
+    transition: background-color 0.3s;
+}
+
+.navigation .btn:hover {
+    background-color: #0056b3;
+}
+
+.lab-section {
+    margin-bottom: 30px;
+}
+
+.lab-section h2 {
+    font-size: 24px;
+    color: #007BFF;
+}
+
+.lab-section h3 {
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.lab-section p {
+    font-size: 16px;
+}
+
+pre {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    overflow: auto;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Додаткові стилі можуть бути додані для покращення зовнішнього вигляду */

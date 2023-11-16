@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Звіт з лабораторної роботи 2</title>
+    <link rel="stylesheet" href="lab_page.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="index.html" class="btn">На головну</a>
+            <!-- Додайте інші посилання на інші завдання, якщо необхідно -->
+        </div>
+        <h1>Лабораторна робота 2</h1>
+
+        <!-- Мета роботи -->
+        <section class="lab-section">
+            <h2>Мета роботи</h2>
+            <p>
+                Опанувати теоретичні основи застосування рекурентних співвідношень для обчислення
+                тригонометричних, експоненціальних, степеневих функцій та розробити програми
+                функціональними мовам програмування для обчислення їх значень
+            </p>
+        </section>
+
+        <section class="lab-section">
+            <h3>Вибір мови програмування та IDE</h3>
+            <p>
+                Для виконання даної лабораторної роботи було використано мову функціонального
+                програмування Scheme та IDE DrRacket. Мова Scheme надає великий набір числових типів
+                і операцій з ними, має неявні типи даних та статичну область видимості. DrRacket дозволяє програмувати
+                на великій кількості мов функціонального програмування та має зручний інтерфейс.
+              </p>
+        </section>
+
+        <!-- Завдання 1 -->
+        <section class="lab-section">
+            <h2>Завдання 1</h2>
+            <h3>Умова завдання</h3>
+            <p>
+                Обчислити значення функції у, розвинувши функцію ln(x) у ряд Тейлора. 
+                Аргумент х змінюється від -2 до 2 з кроком 0.5. Визначити похибку
+            </p>
+            <img src="" alt="">
+            <!-- <h3>Аналіз завдання</h3> -->
+            <!-- <img src="" alt="Аналіз завдання"> -->
+            <!-- Додайте код програми для завдання 1 -->
+            <h3>Код програми:</h3>
+            <pre>
+                <code>
+(define (tailor-series x acc sum i)
+    (define t (/ (* (expt -1 (- i 1)) (expt (- x 1) i)) i))
+    (if (< (abs t) acc)
+        sum
+        (tailor-series x acc (+ sum t) (+ i 1))))
+                  
+(define (y x acc)
+    (cond
+        ((and (>= x -2) (<= x -1))
+            (begin (display "x: ")
+                (display x)
+                (newline)
+                (display "Помилка!")
+                (newline)
+                (newline)
+                (y (+ x 0.5) acc)))
+        ((and (> x -1) (<= x 0))
+            (begin (display "x: ")
+                (display x)
+                (newline)
+                (display "ln по ряду Тейлора: ")
+                (display (- (tailor-series (+ 2 (/ x 2)) acc 0 1) 1))
+                (newline)
+                (display "ln за вбудованою функцією Scheme: ")
+                (display (- (log (+ 2 (/ x 2))) 1))
+                (newline)
+                (display "Похибка ")
+                (display (- (- (tailor-series (+ 2 (/ x 2)) acc 0 1) 1) (- (log (+ 2 (/ x 2))) 1)))
+                (newline)
+                (newline)
+                (y (+ x 0.5) acc)))
+        ((and (> x 0) (<= x 2))
+            (begin (display "x: ")
+                (display x)
+                (newline)
+                (display "ln по ряду Тейлора: ")
+                (display (* (tailor-series (/ x 2) acc 0 1) (tailor-series x acc 0 1)))
+                (newline)
+                (display "ln за вбудованою функцією Scheme: ")
+                (display (* (log (/ x 2)) (log x)))
+                (newline)
+                (display "Похибка")
+                (display (- (* (tailor-series (/ x 2) acc 0 1) (tailor-series x acc 0 1)) (* (log (/ x 2)) (log x))))
+                (newline)
+                (newline)
+                (y (+ x 0.5) acc)))
+        (else
+            (newline)
+        )
+    )
+)
+                  
+(display "Введіть значення точності ")
+(define accuracy (read))
+(newline)
+(y -2 accuracy)                  
+                </code>
+            </pre>
+            <!-- Додайте скріншот роботи та результату -->
+            <h3>Результат роботи програми</h3>
+            <img src="images/lr2-task1.jpg" alt="Результат роботи програми">
+            <!-- Додайте картинку з оцінкою достовірності результату -->
+            <h3>Достовірність результату:</h3>
+            <img src="" alt="Достовірність результату">
+        </section>
+
+        <!-- Завдання 2 -->
+        <section class="lab-section">
+            <h2>Завдання 2</h2>
+            <h3>Умова завдання</h3>
+            <p>
+                Обчислити нескінчений ланцюговий дріб, задавши значення точності при виклику функції
+            </p>
+            <img src="" alt="Нескінчений ланцюговий дріб">
+            <!-- <h3>Аналіз завдання</h3> -->
+            <!-- <img src="" alt="Аналіз завдання"> -->
+            <!-- Додайте код програми для завдання 1 -->
+            <h3>Код програми:</h3>
+            <pre>
+                <code>
+(define (main acc)
+    (calculate-fraction 0 acc))
+                  
+(define (calculate-fraction iter-count acc)
+    (if (< (abs (- (get-frac-value (+ iter-count 1)) (get-frac-value iter-count))) acc)
+        (get-frac-value (+ iter-count 1))
+        (calculate-fraction (+ iter-count 1) acc)))
+                  
+(define (get-fraction-iter is-even iteration-count)
+    (cond ((equal? 0 iteration-count) (/ 1 (get-addition is-even)))
+        (else
+            (/ 1 (+ (get-addition is-even) (get-fraction-iter (not is-even) (- iteration-count 1)))))))
+                  
+(define (get-frac-value iteration-count)
+    (+ 1.0 (/ 1 (+ 1 (get-fraction-iter #t iteration-count))))
+)
+                  
+(define (get-addition num)  
+    (if num
+        2
+        1
+    )
+)
+                  
+(main (read))
+                </code>
+            </pre>
+            <!-- Додайте скріншот роботи та результату -->
+            <h3>Результат роботи програми</h3>
+            <img src="images/lr2-task2.jpg" alt="Результат роботи програми">
+            <!-- Додайте картинку з оцінкою достовірності результату -->
+            <h3>Достовірність результату:</h3>
+            <img src="" alt="Достовірність результату">
+        </section>
+
+        <!-- Висновок -->
+        <section class="lab-section">
+            <h2>Висновок</h2>
+            <p>
+                В ході виконання даної лабораторної роботи було проведено роботу з розвиненням функції у ряд Тейлора при різних значеннях аргумента x,
+                також було обчислено нескінченний ланцюговий дріб до заданої точності. В результаті всі написані функції виконувалися без помилок та видавали правильний результат.
+            </p>
+        </section>
+    </div>
+</body>
+</html>

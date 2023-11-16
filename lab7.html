@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Звіт з лабораторної роботи 7</title>
+    <link rel="stylesheet" href="lab_page.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="index.html" class="btn">На головну</a>
+            <!-- Додайте інші посилання на інші завдання, якщо необхідно -->
+        </div>
+        <h1>Лабораторна робота 7</h1>
+
+        <!-- Мета роботи -->
+        <section class="lab-section">
+            <h2>Мета роботи</h2>
+            <p>
+                Опанувати теоретичні основи обробки рядків та текстових
+                функціонального програмування та розробити програми їх реалізації
+            </p>
+        </section>
+
+        <section class="lab-section">
+            <h3>Вибір мови програмування та IDE</h3>
+            <p>
+                Для виконання даної лабораторної роботи було використано мову функціонального
+                програмування Scheme та IDE DrRacket. Мова Scheme надає великий набір числових типів
+                і операцій з ними, має неявні типи даних та статичну область видимості. DrRacket дозволяє програмувати
+                на великій кількості мов функціонального програмування та має зручний інтерфейс.
+              </p>
+        </section>
+
+        <!-- Завдання 1 -->
+        <section class="lab-section">
+            <h2>Завдання</h2>
+            <h3>Умова завдання</h3>
+            <p>
+                Записати в текстовий файл n рядків тексту, що задаються програмою на функціональній мові програмування. 
+                Зчитати рядки із створеного програмою файлу, вивести їх на екран.
+                В початок кожного рядка тексту вставити задане користувачем слово. 
+                Записати в новий текстовий файл результат обробки тексту.
+            </p>
+            <!-- <h3>Аналіз завдання</h3> -->
+            <!-- <img src="" alt="Аналіз завдання"> -->
+            <!-- Додайте код програми для завдання 1 -->
+            <h3>Код програми:</h3>
+            <pre>
+                <code>
+(define (write-to-file n)
+    (let loop ((i 1)
+        (port (open-output-file "/home/alex/first_func_prog.txt")))
+            (cond ((> i n) (close-output-port port))
+                  (else
+                        (display "Введіть ")
+                        (display i)
+                        (display "-ий рядок: ")
+                        (write (symbol->string(read)) port)
+                        (newline port)
+                        (loop (+ i 1) port)
+                  )
+            )
+    )
+)
+                  
+(define (read-from-file name)
+    (let ((port (open-input-file name)))
+        (read-from-file-helper port)
+        (close-input-port port)
+        (newline)))
+                  
+(define (read-from-file-helper port)
+    (let ((action (read port)))
+        (if (eof-object? action)
+            (newline)
+            (begin (write action)
+                   (newline)
+                   (read-from-file-helper port)))))
+                  
+(define (write-concatenated-strings conc-str file-name)
+    (let ((port-read (open-input-file file-name)) (port-write (open-output-file "/home/alex/second_func_prog.txt")))
+        (write-concatenated-strings-helper conc-str port-read port-write)
+        (close-input-port port-read)
+        (close-output-port port-write)
+        (newline))
+)
+                 
+(define (write-concatenated-strings-helper conc-str port-read port-write)
+    (let ((action (read port-read)))
+        (if (eof-object? action)
+            (newline)
+            (begin (write (string-append conc-str action) port-write)
+                (newline port-write)
+                (write-concatenated-strings-helper conc-str port-read port-write))))
+)
+                  
+(display "Введіть значення n: ")
+(define n (read))
+                 
+(write-to-file n)
+                 
+(read-from-file "/home/alex/first_func_prog.txt")
+                  
+(display "Введіть слово, яке треба вставити в кожен рядок: ")
+(define adding-string (symbol->string(read)))
+                 
+(write-concatenated-strings adding-string "/home/alex/first_func_prog.txt")
+                  
+                </code>
+            </pre>
+            <!-- Додайте скріншот роботи та результату -->
+            <h3>Результат роботи програми</h3>
+            <img src="images/lr7-task.jpg" alt="Результат роботи програми">
+            <!-- Додайте картинку з оцінкою достовірності результату -->
+            <h3>Достовірність результату:</h3>
+            <img src="" alt="Достовірність результату">
+        </section>
+
+        <!-- Висновок -->
+        <section class="lab-section">
+            <h2>Висновок</h2>
+            <p>
+                В ході виконання даної лабораторної роботи було проведено операції по читанню інформації з файлу та її записування в нього,
+                також було використано функції для обробки тексту. В результаті всі написані функції виконувалися без помилок та видавали правильний результат.
+            </p>
+        </section>
+    </div>
+</body>
+</html>
