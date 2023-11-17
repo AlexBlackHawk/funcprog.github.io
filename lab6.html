@@ -110,7 +110,38 @@
             <h3>Код програми:</h3>
             <pre>
                 <code>
-
+(define (priority-queue-add pq item)
+    (if (null? pq)
+        (list item)
+        (if (< item (car pq))
+            (cons item pq)
+            (cons (car pq) (priority-queue-add (cdr pq) item)))))
+                
+(define (priority-queue-remove pq)
+    (cdr pq))
+                
+(define (priority-queue-size pq)
+(length pq))
+                
+(define (read-input)
+    (let ((n (read))
+        (k (read))
+        (inputs '()))
+        (do ((i 0 (+ i 1)))
+            ((= i n) inputs)
+          (let ((ti (read)))
+            (if (< (priority-queue-size inputs) k)
+                (set! inputs (priority-queue-add inputs ti))
+                (set! inputs (priority-queue-add (priority-queue-remove inputs) (+ ti (car inputs)))))))))
+                
+(define (find-minimal-sum inputs)
+    (let loop ((pq inputs))
+        (if (= (priority-queue-size pq) 1)
+            (car pq)
+            (loop (priority-queue-remove pq)))))
+                
+(let ((input-list (read-input)))
+    (display (find-minimal-sum input-list)))
                 </code>
             </pre>
             <!-- Додайте скріншот роботи та результату -->

@@ -175,7 +175,7 @@
             <p>
                 Створити список з трьох комплексних чисел, які задані в алгебраїчній формі a + ib.
                 Розв’язати комплексне рівняння, коефіцієнтами якого при x та y та вільний член є комплексні числа зі списку. 
-                Контрольний приклад: (1 + 2i)x+(3 − 5i)y = 1 − 3i. Відповідь x = −4/5; y = 11/11
+                Контрольний приклад: (1 + 2i)x+(3 − 5i)y = 1 − 3i. Відповідь x = −4/5; y = 5/11
             </p>
             <!-- <h3>Аналіз завдання</h3> -->
             <!-- <img src="" alt="Аналіз завдання"> -->
@@ -183,51 +183,51 @@
             <h3>Код програми:</h3>
             <pre>
                 <code>
-                    (define (my-list-ref items n)
-                    (if (= n 1)
-                        (car items)
-                        (my-list-ref (cdr items) (- n 1 ))))
+(define (my-list-ref items n)
+    (if (= n 1)
+        (car items)
+        (my-list-ref (cdr items) (- n 1 ))))
                   
-                  (define (calculate-determinant eq1 eq2)
-                    (- (* (my-list-ref eq1 1) (my-list-ref eq2 2)) (* (my-list-ref eq1 2) (my-list-ref eq2 1)))
-                  )
+(define (calculate-determinant eq1 eq2)
+    (- (* (my-list-ref eq1 1) (my-list-ref eq2 2)) (* (my-list-ref eq1 2) (my-list-ref eq2 1)))
+)
                   
-                  (define (calculate-determinant-x eq1 eq2)
-                    (- (* (my-list-ref eq1 3) (my-list-ref eq2 2)) (* (my-list-ref eq1 2) (my-list-ref eq2 3)))
-                  )
+(define (calculate-determinant-x eq1 eq2)
+    (- (* (my-list-ref eq1 3) (my-list-ref eq2 2)) (* (my-list-ref eq1 2) (my-list-ref eq2 3)))
+)
                   
-                  (define (calculate-determinant-y eq1 eq2)
-                    (- (* (my-list-ref eq1 1) (my-list-ref eq2 3)) (* (my-list-ref eq1 3) (my-list-ref eq2 1)))
-                  )
+(define (calculate-determinant-y eq1 eq2)
+    (- (* (my-list-ref eq1 1) (my-list-ref eq2 3)) (* (my-list-ref eq1 3) (my-list-ref eq2 1)))
+)
                   
-                  (define (calculate-x eq1 eq2)
-                    (/ (calculate-determinant-x eq1 eq2) (calculate-determinant eq1 eq2))
-                  )
+(define (calculate-x eq1 eq2)
+    (/ (calculate-determinant-x eq1 eq2) (calculate-determinant eq1 eq2))
+)
                   
-                  (define (calculate-y eq1 eq2)
-                    (/ (calculate-determinant-y eq1 eq2) (calculate-determinant eq1 eq2))
-                  )
+(define (calculate-y eq1 eq2)
+    (/ (calculate-determinant-y eq1 eq2) (calculate-determinant eq1 eq2))
+)
                   
-                  (define (create-equations x-comp-num y-comp-num free-comp-num)
-                    (cons (list (real-part x-comp-num) (real-part y-comp-num) (real-part free-comp-num)) (list (imag-part x-comp-num) (imag-part y-comp-num) (imag-part free-comp-num)))
-                  )
+(define (create-equations x-comp-num y-comp-num free-comp-num)
+    (cons (list (real-part x-comp-num) (real-part y-comp-num) (real-part free-comp-num)) (list (imag-part x-comp-num) (imag-part y-comp-num) (imag-part free-comp-num)))
+)
                   
-                  (define x-complex 1+2i)
-                  (define y-complex 3-5i)
-                  (define free-complex 1-3i)
+(define x-complex 1+2i)
+(define y-complex 3-5i)
+(define free-complex 1-3i)
                   
-                  (define system-of-equations (create-equations x-complex y-complex free-complex))
+(define system-of-equations (create-equations x-complex y-complex free-complex))
                   
-                  (define x (calculate-x (CAR system-of-equations) (CDR system-of-equations)))
-                  (define y (calculate-y (CAR system-of-equations) (CDR system-of-equations)))
+(define x (calculate-x (CAR system-of-equations) (CDR system-of-equations)))
+(define y (calculate-y (CAR system-of-equations) (CDR system-of-equations)))
                   
-                  (display "x = ")
-                  (display x)
-                  (newline)
+(display "x = ")
+(display x)
+(newline)
                   
-                  (display "y = ")
-                  (display y)
-                  (newline)
+(display "y = ")
+(display y)
+(newline)
                   
                 </code>
             </pre>
