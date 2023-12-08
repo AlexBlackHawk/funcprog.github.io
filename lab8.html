@@ -41,21 +41,83 @@
             <p>
                 Розробити процедури для розкладання многочлена по степенях двочлена. 
                 Многочлен та двочлен задані списком своїх коефіцієнтів 
-                та степенями у вигляді f ( x) = a0 x n + a1 x n −1 + ... + a n −1 x + a n та g(x) = b0 x + b1. 
+                та степенями у вигляді f(x) = a0x^n + a1x^(n−1) + ... + a(n−1)x + an та g(x) = b0x + b1. 
                 Для спрощення можна використовувати схему Горнера. Вивести на екран многочлен, який є результатом
-                n −1 + ... + c1 g ( x) + c0 . 
-                Значення розкладання, у вигляді P ( x) = cn g ( x) + cn −1 g ( x)
-                многочленів при заданому користувачем значенні змінної не обчислювати. 
+                P(x) = cng(x)^n + c(n-1)g(x)^(n-1) + ... + c1g(x) + c0. 
+                Значення розкладання многочленів при заданому користувачем значенні змінної не обчислювати. 
                 Результат подати в символьному вигляді.
             </p>
-            <img src="" alt="">
             <!-- <h3>Аналіз завдання</h3> -->
             <!-- <img src="" alt="Аналіз завдання"> -->
             <!-- Додайте код програми для завдання 1 -->
             <h3>Код програми:</h3>
             <pre>
                 <code>
+(define (my-list-ref items n)
+  (if (= n 1)
+      (car items)
+      (my-list-ref (cdr items) (- n 1 ))))
 
+(define (get-but-last elements)
+  (define (add-element elems indx)
+    (if (= indx (length elements))
+        '()
+        (cons (CAR elems) (add-element (CDR elems) (+ indx 1)))
+    )
+  )
+  (cons (CAR elements) (add-element (CDR elements) 2))
+)
+
+(define (get-resulted-polynomial divided divisor)
+  (define (add-divided-coef list-coef indx prev)
+    (cond ((null? list-coef)
+        '())
+          (else
+            (cons (+ (* divisor prev) (CAR list-coef)) (add-divided-coef (CDR list-coef) (+ indx 1) (+ (* divisor prev) (CAR list-coef))))
+          )
+    )
+  )
+  (cons (CAR divided) (add-divided-coef (CDR divided) 2 (CAR divided)))
+)
+
+(define (print-resulted-polynomial list-result)
+  (define (print-res-coef result indx degree)
+    (cond ((> indx (length result))
+        (newline))
+        (else
+          (cond ((<= (my-list-ref result indx) 0)
+              (display (my-list-ref result indx)))
+              (else
+                (display "+")
+                (display (my-list-ref result indx))
+              )
+          )
+          (cond ((= indx (length result))
+              (print-res-coef result (+ indx 1) (- degree 1)))
+              (else
+                (display "x^")
+                (display degree)
+                (print-res-coef result (+ indx 1) (- degree 1))
+              )
+          )
+        )
+    )
+  )
+  (print-res-coef list-result 1 (- (length list-result) 1))
+)
+
+(define divided_coefs (list 5 5 1 0 -11))
+(define divisor_coef 1)
+(define result_coefs (get-resulted-polynomial divided_coefs divisor_coef))
+
+(define result_wo_last (get-but-last result_coefs))
+
+(display "Результат: ")
+(print-resulted-polynomial result_wo_last)
+(newline)
+
+(display "Остача від ділення: ")
+(display (my-list-ref result_coefs (length result_coefs)))
                 </code>
             </pre>
             <!-- Додайте скріншот роботи та результату -->
@@ -63,15 +125,15 @@
             <img src="images/lr8-task.jpg" alt="Результат роботи програми">
             <!-- Додайте картинку з оцінкою достовірності результату -->
             <h3>Достовірність результату:</h3>
-            <img src="" alt="Достовірність результату">
+            <img src="/images/lr8-check.jpg" alt="Достовірність результату">
         </section>
 
         <!-- Висновок -->
         <section class="lab-section">
             <h2>Висновок</h2>
             <p>
-                В ході виконання даної лабораторної роботи було ,
-                також було . В результаті всі написані функції виконувалися без помилок та видавали правильний результат.
+                В ході виконання даної лабораторної роботи було обчислено результат ділення многочлена на двочлен,
+                також було виведено отриманий многочлен на екран. В результаті всі написані функції виконувалися без помилок та видавали правильний результат.
             </p>
         </section>
     </div>
